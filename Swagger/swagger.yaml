@@ -1,0 +1,83 @@
+openapi: 3.0.0
+info:
+  title: Boilerplate API
+  description: Typescript boilerplate Swagger Document
+  version: 0.1.9
+servers:
+  - url: http://localhost:8000
+    description: MyApi
+paths:
+  /getUsers:
+    get:
+      summary: Returns a list of users.
+      description: Returns list of registered users...
+      responses:
+        '200': # status code
+          description: A JSON array of user
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+
+  /createUser:
+    post:
+      summary: Creates new user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        201:
+          description: User Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+  /updateUser/{userId}:
+    patch:
+      summary: Update User Data
+      description: Updating whole user or some userData
+      parameters:
+        - in: path
+          name: userId
+          required: true
+          description: userId should be Numeric
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        200:
+          description: User Updated Successfully.
+
+  /deleteUser/{userId}:
+    delete:
+      summary: Delete user by id
+      parameters:
+        - in: path
+          name: userId
+          required: true
+          description: userId should be Numeric
+          schema:
+            type: integer
+      responses:
+        200:
+          description: User Deleted successfully...
+
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+        email:
+          type: string
+        password:
+          type: string

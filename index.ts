@@ -1,5 +1,5 @@
 import express, { Express, Request, Response } from 'express';
-import bodyParser from 'body-parser';
+import { ApplicationCronCountEvent } from './utils/ApplicationCountCronEvent';
 const userRoutes = require('./Routes/UserRoutes');
 const _ = require('dotenv').config();
 const YAML = require('yamljs');
@@ -12,6 +12,7 @@ const app = express();
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(cors());
+ApplicationCronCountEvent();
 
 // Swagger UI
 // const swaggerJsDocs = YAML.load('./Swagger/swagger.yaml');

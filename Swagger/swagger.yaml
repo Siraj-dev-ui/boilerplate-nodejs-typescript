@@ -7,9 +7,32 @@ servers:
   - url: http://localhost:8000
     description: MyApi
 paths:
+  /login:
+    post:
+      summary: Login User
+      tags:
+        - 'Auth Api'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginUser'
+      responses:
+        201:
+          description: Logged In successfully...
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+
   /getUsers:
     get:
+      security:
+        - bearerAuth: []
       summary: Returns a list of users.
+      tags:
+        - 'CRUD Api'
       description: Returns list of registered users...
       responses:
         '200': # status code
@@ -21,7 +44,11 @@ paths:
 
   /createUser:
     post:
+      security:
+        - bearerAuth: []
       summary: Creates new user
+      tags:
+        - 'CRUD Api'
       requestBody:
         required: true
         content:
@@ -35,9 +62,14 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/User'
+
   /updateUser/{userId}:
     patch:
+      security:
+        - bearerAuth: []
       summary: Update User Data
+      tags:
+        - 'CRUD Api'
       description: Updating whole user or some userData
       parameters:
         - in: path
@@ -58,7 +90,11 @@ paths:
 
   /deleteUser/{userId}:
     delete:
+      security:
+        - bearerAuth: []
       summary: Delete user by id
+      tags:
+        - 'CRUD Api'
       parameters:
         - in: path
           name: userId
@@ -71,6 +107,11 @@ paths:
           description: User Deleted successfully...
 
 components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
   schemas:
     User:
       type: object
@@ -79,5 +120,20 @@ components:
           type: integer
         email:
           type: string
+          example: sirajalig86@gmail.com
         password:
           type: string
+          example: 123
+        role_id:
+          type: number
+          example: 1
+
+    LoginUser:
+      type: object
+      properties:
+        email:
+          type: string
+          example: sirajalig86@gmail.com
+        password:
+          type: string
+          example: 123
